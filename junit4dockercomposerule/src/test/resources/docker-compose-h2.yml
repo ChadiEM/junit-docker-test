@@ -1,0 +1,4 @@
+version: '2'
+services:
+  h2:
+    build: ./h2
