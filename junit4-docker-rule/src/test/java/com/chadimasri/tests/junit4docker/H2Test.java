@@ -1,7 +1,6 @@
 package com.chadimasri.tests.junit4docker;
 
 import com.github.geowarin.junit.DockerRule;
-import com.google.common.collect.Lists;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -10,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static com.chadimasri.tests.helpers.H2Helper.*;
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class H2Test {
@@ -23,7 +23,7 @@ public class H2Test {
     @Test
     public void insert_team1() throws SQLException {
         try (Connection conn = getConnection()) {
-            insertNames(conn, Lists.newArrayList("Chadi"));
+            insertNames(conn, newArrayList("Chadi"));
         }
 
         List<String> names;
@@ -31,13 +31,13 @@ public class H2Test {
             names = readNames(conn);
         }
 
-        assertEquals(Lists.newArrayList("Chadi"), names);
+        assertEquals(newArrayList("Chadi"), names);
     }
 
     @Test
     public void insert_team2() throws SQLException {
         try (Connection conn = getConnection()) {
-            insertNames(conn, Lists.newArrayList("Joe", "Paul", "Mario"));
+            insertNames(conn, newArrayList("Joe", "Paul", "Mario"));
         }
 
         List<String> names;
@@ -45,7 +45,7 @@ public class H2Test {
             names = readNames(conn);
         }
 
-        assertEquals(Lists.newArrayList("Joe", "Paul", "Mario"), names);
+        assertEquals(newArrayList("Joe", "Paul", "Mario"), names);
     }
 
     private Connection getConnection() throws SQLException {

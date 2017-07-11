@@ -12,6 +12,10 @@
     <artifactId>junit4-docker-compose-rule</artifactId>
     <name>JUnit Docker Test :: com.palantir.docker.compose:docker-compose-rule-junit4</name>
 
+    <properties>
+        <docker-compose-rule.version>0.32.0</docker-compose-rule.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.chadimasri.tests</groupId>
@@ -20,15 +24,27 @@
         <dependency>
             <groupId>com.palantir.docker.compose</groupId>
             <artifactId>docker-compose-rule-junit4</artifactId>
-            <version>0.32.0</version>
+            <version>${docker-compose-rule.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.palantir.docker.compose</groupId>
+            <artifactId>docker-compose-rule-core</artifactId>
+            <version>${docker-compose-rule.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 
