@@ -20,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 public class H2Test {
     @Test
     @DisplayName("Insert and Query Team 1")
-    void insert_team1() throws ClassNotFoundException, SQLException {
-        try (Connection conn = getH2Connection("localhost", 1521)) {
+    void insert_team1() throws SQLException {
+        try (Connection conn = getConnection()) {
             insertNames(conn, Lists.newArrayList("Chadi"));
         }
 
         List<String> names;
-        try (Connection conn = getH2Connection("localhost", 1521)) {
+        try (Connection conn = getConnection()) {
             names = readNames(conn);
         }
 
@@ -35,17 +35,20 @@ public class H2Test {
 
     @Test
     @DisplayName("Insert and Query Team 2")
-    void insert_team2() throws ClassNotFoundException, SQLException {
-        try (Connection conn = getH2Connection("localhost", 1521)) {
+    void insert_team2() throws SQLException {
+        try (Connection conn = getConnection()) {
             insertNames(conn, Lists.newArrayList("Joe", "Paul", "Mario"));
         }
 
         List<String> names;
-        try (Connection conn = getH2Connection("localhost", 1521)) {
+        try (Connection conn = getConnection()) {
             names = readNames(conn);
         }
 
         assertIterableEquals(Lists.newArrayList("Joe", "Paul", "Mario"), names);
     }
 
+    private Connection getConnection() throws SQLException {
+        return getH2Connection("localhost", 1521);
+    }
 }

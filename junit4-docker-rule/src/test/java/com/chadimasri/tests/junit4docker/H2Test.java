@@ -21,13 +21,13 @@ public class H2Test {
             .build();
 
     @Test
-    public void insert_team1() throws ClassNotFoundException, SQLException {
-        try (Connection conn = getH2Connection(h2Rule.getDockerHost(), h2Rule.getHostPort("1521/tcp"))) {
+    public void insert_team1() throws SQLException {
+        try (Connection conn = getConnection()) {
             insertNames(conn, Lists.newArrayList("Chadi"));
         }
 
         List<String> names;
-        try (Connection conn = getH2Connection(h2Rule.getDockerHost(), h2Rule.getHostPort("1521/tcp"))) {
+        try (Connection conn = getConnection()) {
             names = readNames(conn);
         }
 
@@ -35,16 +35,20 @@ public class H2Test {
     }
 
     @Test
-    public void insert_team2() throws ClassNotFoundException, SQLException {
-        try (Connection conn = getH2Connection(h2Rule.getDockerHost(), h2Rule.getHostPort("1521/tcp"))) {
+    public void insert_team2() throws SQLException {
+        try (Connection conn = getConnection()) {
             insertNames(conn, Lists.newArrayList("Joe", "Paul", "Mario"));
         }
 
         List<String> names;
-        try (Connection conn = getH2Connection(h2Rule.getDockerHost(), h2Rule.getHostPort("1521/tcp"))) {
+        try (Connection conn = getConnection()) {
             names = readNames(conn);
         }
 
         assertEquals(Lists.newArrayList("Joe", "Paul", "Mario"), names);
+    }
+
+    private Connection getConnection() throws SQLException {
+        return getH2Connection(h2Rule.getDockerHost(), h2Rule.getHostPort("1521/tcp"));
     }
 }
