@@ -12,6 +12,7 @@
         <module>junit4dockerrule</module>
         <module>junit4dockercomposerule</module>
         <module>junit5</module>
+        <module>helpers</module>
     </modules>
 
     <properties>

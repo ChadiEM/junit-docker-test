@@ -1,10 +1,20 @@
 package com.chadimasri.tests.junit4.dockercomposerule;
 
+import com.google.common.collect.Lists;
 import com.palantir.docker.compose.DockerComposeRule;
+import com.palantir.docker.compose.connection.DockerPort;
+import com.palantir.docker.compose.connection.waiting.HealthCheck;
+import com.palantir.docker.compose.connection.waiting.SuccessOrFailure;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.sql.*;
+import java.util.List;
+
+import static com.chadimasri.tests.helpers.SQLConnectionHelper.getH2Connection;
+import static com.chadimasri.tests.helpers.SQLConnectionHelper.insertNames;
+import static com.chadimasri.tests.helpers.SQLConnectionHelper.readNames;
+import static org.junit.Assert.assertEquals;
 
 public class H2Test {
     @Rule
@@ -15,34 +25,30 @@ public class H2Test {
 
     @Test
     public void insert_team1() throws ClassNotFoundException, SQLException {
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:mem:test");
-             Statement stat = conn.createStatement()) {
-            stat.execute("CREATE TABLE NAMES(ID INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(255))");
-            stat.execute("INSERT INTO NAMES(NAME) VALUES('Chadi')");
-
-            try (ResultSet rs = stat.executeQuery("SELECT * FROM NAMES")) {
-                while (rs.next()) {
-                    System.out.println(rs.getString("NAME"));
-                }
-            }
+        try (Connection conn = getH2Connection(h2Rule.hostNetworkedPort(1521).getIp(), 1521)) {
+            insertNames(conn, Lists.newArrayList("Chadi"));
         }
+
+        List<String> names;
+        try (Connection connection = getH2Connection(h2Rule.hostNetworkedPort(1521).getIp(), 1521)) {
+            names = readNames(connection);
+        }
+
+        assertEquals(Lists.newArrayList("Chadi"), names);
     }
 
     @Test
     public void insert_team2() throws ClassNotFoundException, SQLException {
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:mem:test");
-             Statement stat = conn.createStatement()) {
-            stat.execute("CREATE TABLE NAMES(ID INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(255))");
-            stat.execute("INSERT INTO NAMES(NAME) VALUES('Joe')");
-            stat.execute("INSERT INTO NAMES(NAME) VALUES('Paul')");
-            stat.execute("INSERT INTO NAMES(NAME) VALUES('Mario')");
-
-            try (ResultSet rs = stat.executeQuery("SELECT * FROM NAMES")) {
-                while (rs.next()) {
-                    System.out.println(rs.getString("NAME"));
-                }
-            }
+        try (Connection conn = getH2Connection(h2Rule.hostNetworkedPort(1521).getIp(), 1521)) {
+            insertNames(conn, Lists.newArrayList("Joe", "Paul", "Mario"));
         }
+
+        List<String> names;
+        try (Connection connection = getH2Connection(h2Rule.hostNetworkedPort(1521).getIp(), 1521)) {
+            names = readNames(connection);
+        }
+
+        assertEquals(Lists.newArrayList("Joe", "Paul", "Mario"), names);
     }
 
 }
