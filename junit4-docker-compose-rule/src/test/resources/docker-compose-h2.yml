@@ -1,0 +1,7 @@
+version: '2'
+services:
+  h2:
+    build: ./h2
+    ports:
+      - "81"
+      - "1521"

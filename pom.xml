@@ -6,12 +6,16 @@
 
     <groupId>com.chadimasri.tests</groupId>
     <artifactId>junit-docker-test</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <name>JUnit Docker Test</name>
+
+    <packaging>pom</packaging>
+
     <modules>
-        <module>junit4dockerrule</module>
-        <module>junit4dockercomposerule</module>
-        <module>junit5</module>
+        <module>junit4-docker-rule</module>
+        <module>junit4-docker-compose-rule</module>
+        <module>junit5-docker</module>
         <module>helpers</module>
     </modules>
 
@@ -19,5 +23,37 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.chadimasri.tests</groupId>
+                <artifactId>helpers</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.196</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>1.7.21</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
