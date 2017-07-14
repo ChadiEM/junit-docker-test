@@ -12,7 +12,7 @@ public class H2Helper {
 
         while (true) {
             try {
-                return DriverManager.getConnection("jdbc:h2:tcp://" + host + ":" + port + "//opt/h2-data/test");
+                return DriverManager.getConnection("jdbc:h2:tcp://" + host + ":" + port + "/mem:db;DB_CLOSE_DELAY=-1");
             } catch (SQLException e) {
                 try {
                     Thread.sleep(500);
